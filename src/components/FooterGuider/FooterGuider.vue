@@ -28,13 +28,27 @@ export default {
   name: 'FooterGuider',
   data () {
     return {
-      selected: 'Home'
+      selected: ''
     }
   },
-
+  created () {
+    switch(this.$route.name ) {
+      case  'Home':
+        this.selected = 'Home'
+        break;
+      case  'CalTool':
+        this.selected = 'CalTool'
+        break;
+      case  'ProTool':
+        this.selected = 'ProTool'
+        break;
+      case  'Profile':
+        this.selected = 'Profile'
+        break;
+    }
+  },
   watch: {
     selected:function (newV, oldV) {
-
       this.$router.push({
         name: newV
       })

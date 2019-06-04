@@ -6,10 +6,20 @@
 </template>
 
 <script>
+
   import  FooterGuider from './components/FooterGuider/FooterGuider'
+  import {mapActions} from 'vuex'
 export default {
   name: 'App',
-  components: {FooterGuider}
+  components: {FooterGuider},
+  mounted(){
+
+    this.getUserInfo()
+
+  },
+  methods: {
+    ...mapActions(['getUserInfo'])
+  },
 }
 </script>
 

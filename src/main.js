@@ -12,14 +12,15 @@ import MyUl from './components/common/MyUL'
 Vue.component(MyUl.name,MyUl)
 import MyLi from './components/common/MyLi'
 Vue.component(MyLi.name, MyLi)
+import store from './store'
 
-import Axios from 'axios'
-Vue.prototype.$axios = Axios
-Axios.defaults.baseURL = 'http://localhost:4000'
+import './mock/mockServer' // 后台模拟数据
+
 
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

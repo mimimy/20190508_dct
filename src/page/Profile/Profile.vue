@@ -1,13 +1,13 @@
 <template>
  <div class="profile">
    <div class="grid_top">
-     <router-link to="/login">
+     <router-link :to="userInfo._id ? '/userinfo': '/login'">
        <div class="grid_top_child">
          <div class="avatar_div">
            <img  src="../../../static/img/avatar_default.png"/>
            <div class="avatar_name">
-             <strong >登录/注册</strong>
-             <div style="padding: 10px 0px" >暂无绑定手机号</div>
+             <strong  v-if="!userInfo.phone ">{{userInfo.name || '登录/注册'}}</strong>
+             <div style="padding: 10px 0px" >{{userInfo.phone || '暂无绑定手机号' }}</div>
            </div>
          </div>
        </div>
@@ -46,23 +46,47 @@
          <img class="right_img" src="../../../static/img/ic_arrow.png"/>
        </li>
      </ul>
+     <mt-button class="mt_btn" @click="logout" type="danger" v-if="userInfo._id">退出登录</mt-button>
    </div>
  </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import {MessageBox} from 'mint-ui'
     export default {
-        name: 'Profile'
+      name: 'Profile',
+      computed:{
+        ...mapState(['userInfo'])
+      },
+      methods:{
+        logout(){
+
+          MessageBox.confirm('确认退出？').then(action => {
+            this.$store.dispatch('logout')
+          },
+            action => {
+
+          }
+          );
+        }
+      }
     }
 </script>
 
 <style scoped>
+  .mt_btn{
+    width: 80%;
+    margin:10%;
+
+  }
 .profile{
   background-color: #f5f5f5;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
+
 .grid_top{
   background-image: url(../../../static/img/my_page_top_bg.png);
   height: 100px;
@@ -107,18 +131,25 @@
   border-bottom:1px solid #F5F5F5;
   padding: 15px;
   vertical-align: middle;
+  position: relative;
 
 }
 .grid_center .left_img{
   width: 8%;
+  float: left;
 }
 .grid_center .right_img{
   vertical-align: middle;
   float: right;
   width: 4%;
+  position: absolute;
+  right: 5%;
+  top: 40%;
 }
 .grid_center span{
-  text-align: center;
   font-size: 16px;
+  position: relative;
+  left: 5%;
+
 }
 </style>

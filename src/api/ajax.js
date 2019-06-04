@@ -1,3 +1,4 @@
+import Axios from 'axios'
 export  default function ajax (url, data={},type='GET') {
   return new Promise(function (resolve,reject) {
     //执行异步请求
@@ -13,13 +14,14 @@ export  default function ajax (url, data={},type='GET') {
         url = url + '?' + dataStr
       }
       // 发送get请求
-      promise = this.$axios.get(url)
+      promise = Axios.get(url)
     } else {
       // 发送post请求
-      promise = this.$axios.post(url, data)
+      promise = Axios.post(url, data)
     }
     promise.then(function (response) {
-      resolve(data);
+
+      resolve(response.data);
     }).catch(function (error) {
       reject(error)
     })

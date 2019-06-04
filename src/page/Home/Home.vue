@@ -8,7 +8,7 @@
     </mt-swipe>
     <div class="grid">
       <div style="height: 50px;"></div>
-      <div class="box">
+      <div class="box" v-if="modules.length">
         <my-ul>
           <my-li v-for="(module,index) in modules" :key="index">
             <router-link :to="module.route">
@@ -18,30 +18,34 @@
           </my-li>
         </my-ul>
       </div>
-
+      <div v-else>
+        <img src="./img/msite_back.svg" alt="back"/>
+      </div>
     </div>
     <div class="dtxx">
       <div style="height: 50px;">
         <div style="text-align:left;padding-top: 20px;padding-left: 10px;color: #fff">频管要情动态</div>
       </div>
-      <ul>
-         <li v-for="(goods,index) in typeGoods0" :key="index">
-           <div >{{goods.goodsName}}</div>
-           <div >{{goods.goodsImg}}</div>
-           <div>
-             <span style="color: #2c3e50">{{goods.goodsName}}</span>
-             <span  style="color: #42b983">数量：{{goods.goodsId}}个</span>
-             <span  style="color: #42b983">单价：{{goods.price}}元</span>
-           </div>
-         </li>
-      </ul>
+      <shop-list></shop-list>
+      <!--<ul>-->
+         <!--<li v-for="(goods,index) in  $store.state.shops" :key="index">-->
+           <!--<div >{{goods.link}}</div>-->
+           <!--<div >{{goods.image_url}}</div>-->
+           <!--<div>-->
+             <!--<span style="color: #2c3e50">{{goods.description}}</span>-->
+             <!--<span  style="color: #42b983">数量：{{goods.title}}个</span>-->
+             <!--<span  style="color: #42b983">单价：{{goods.price}}元</span>-->
+           <!--</div>-->
+         <!--</li>-->
+      <!--</ul>-->
 
     </div>
 	</div>
 </template>
 
 <script type="text/javascript">
-
+  import {mapActions} from 'vuex'
+  import ShopList from '../../components/ShopList/ShopList'
   export default {
 		data (){
 			return{
@@ -64,23 +68,28 @@
 
 			}
 		},
-    created:function () {
-      let url ="https://www.easy-mock.com/mock/5b8b30dbf032f03c5e71de7f/kuaican/typeGoods";
-      this.$axios.get(url)
-         .then(res=>{
-             this.typeGoods0 = res.data[0];
+    components:{
+      ShopList
+    },
 
-         })
-         .catch(err=>{
-           console.log(err)
-         })
-    }
+    mounted(){
+      // this.$store.dispatch('getAddress')
+      this.getAddress();
+      this.getCategorys();
+      this.getShops();
+
+
+    },
+    methods: {
+      ...mapActions(['getAddress','getCategorys','getShops'])
+    },
 	}
 
 
 </script>
 
 <style type="text/css" scoped>
+
   .dtxx{
     margin-top: 10px;
     background-repeat: no-repeat;
